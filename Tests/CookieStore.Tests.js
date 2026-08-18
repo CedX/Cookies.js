@@ -189,9 +189,9 @@ describe("CookieStore", () => {
 			};
 
 			const service = new CookieStore;
-			service.onChange(listener);
+			const abortController = service.onChange(listener);
 			await service.set("foo", "bar");
-			service.removeEventListener(CookieStore.changeEvent, /** @type {EventListener} */ (listener));
+			abortController.abort();
 		});
 
 		it("should trigger an event when a cookie is updated", async () => {
@@ -203,9 +203,9 @@ describe("CookieStore", () => {
 			};
 
 			const service = new CookieStore;
-			service.onChange(listener);
+			const abortController = service.onChange(listener);
 			await service.set("foo", "baz");
-			service.removeEventListener(CookieStore.changeEvent, /** @type {EventListener} */ (listener));
+			abortController.abort();
 		});
 
 		it("should trigger an event when a cookie is removed", async () => {
@@ -217,9 +217,9 @@ describe("CookieStore", () => {
 			};
 
 			const service = new CookieStore;
-			service.onChange(listener);
+			const abortController = service.onChange(listener);
 			await service.delete("foo");
-			service.removeEventListener(CookieStore.changeEvent, /** @type {EventListener} */ (listener));
+			abortController.abort();
 		});
 
 		it("should handle the key prefix", async () => {
@@ -230,9 +230,9 @@ describe("CookieStore", () => {
 			};
 
 			const service = new CookieStore({keyPrefix: "prefix:"});
-			service.onChange(listener);
+			const abortController = service.onChange(listener);
 			await service.set("baz", "qux");
-			service.removeEventListener(CookieStore.changeEvent, /** @type {EventListener} */ (listener));
+			abortController.abort();
 		});
 	});
 

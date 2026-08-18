@@ -101,13 +101,14 @@ export class CookieStore extends EventTarget implements AsyncIterable<[string, a
 	}
 
 	/**
-	 * Registers a function that will be invoked whenever the `change` event is triggered.
+	 * Registers a function that will be invoked whenever the {@link changeEvent} event is triggered.
 	 * @param listener The event handler to register.
-	 * @returns This instance.
+	 * @returns An abort controller used to cancel the subscription to the {@link changeEvent} event.
 	 */
-	onChange(listener: (event: CookieEvent) => void): this {
-		this.addEventListener(CookieStore.changeEvent, listener as EventListener);
-		return this;
+	onChange(listener: (event: CookieEvent) => void): AbortController {
+		const abortController = new AbortController;
+		this.addEventListener(CookieStore.changeEvent, listener as EventListener, {signal: abortController.signal});
+		return abortController;
 	}
 
 	/**
