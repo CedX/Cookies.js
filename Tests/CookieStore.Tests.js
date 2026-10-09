@@ -1,6 +1,7 @@
 /* eslint-disable max-lines-per-function */
 import {CookieStore} from "@cedx/cookies";
 import {assert} from "chai";
+import "chai/register-should.js";
 
 /**
  * Tests the features of the {@link CookieStore} class.
@@ -12,18 +13,18 @@ describe("CookieStore", () => {
 
 	describe("keys", () => {
 		it("should return an empty array for an empty cookie store", async () =>
-			assert.isEmpty(await new CookieStore().keys));
+			(await new CookieStore().keys).should.be.empty);
 
 		it("should return the list of keys for a non-empty cookie store", async () => {
 			await cookieStore.set("foo", '"bar"');
 			await cookieStore.set("prefix:baz", '"qux"');
-			assert.sameMembers(Array.from(await new CookieStore().keys), ["foo", "prefix:baz"]);
+			Array.from(await new CookieStore().keys).should.have.ordered.members(["foo", "prefix:baz"]);
 		});
 
 		it("should handle the key prefix", async () => {
 			await cookieStore.set("foo", '"bar"');
 			await cookieStore.set("prefix:baz", '"qux"');
-			assert.sameMembers(Array.from(await new CookieStore({keyPrefix: "prefix:"}).keys), ["baz"]);
+			Array.from(await new CookieStore({keyPrefix: "prefix:"}).keys).should.have.members(["baz"]);
 		});
 	});
 
