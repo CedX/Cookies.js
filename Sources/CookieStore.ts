@@ -38,10 +38,10 @@ export class CookieStore extends EventTarget implements AsyncIterable<[string, a
 	/**
 	 * The keys of this cookie store.
 	 */
-	get keys(): Promise<Set<string>> {
+	get keys(): Promise<string[]> {
 		return cookieStore.getAll().then(cookies => {
 			const keys = cookies.map(cookie => cookie.name!);
-			return new Set(this.#keyPrefix ? keys.filter(key => key.startsWith(this.#keyPrefix)).map(key => key.slice(this.#keyPrefix.length)) : keys);
+			return this.#keyPrefix ? keys.filter(key => key.startsWith(this.#keyPrefix)).map(key => key.slice(this.#keyPrefix.length)) : keys;
 		});
 	}
 
@@ -49,7 +49,7 @@ export class CookieStore extends EventTarget implements AsyncIterable<[string, a
 	 * The number of entries in this cookie store.
 	 */
 	get length(): Promise<number> {
-		return this.keys.then(keys => keys.size);
+		return this.keys.then(keys => keys.length);
 	}
 
 	/**
