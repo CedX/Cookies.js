@@ -9,7 +9,7 @@ export default defineConfig(
 	...ts.configs.stylisticTypeChecked,
 	{
 		languageOptions: {
-			globals: {...globals.browser, ...globals.mocha},
+			globals: {...globals.browser, ...globals.chai, ...globals.mocha},
 			parserOptions: {project: true}
 		},
 		rules: {
@@ -108,7 +108,7 @@ export default defineConfig(
 			"no-unmodified-loop-condition": "error",
 			"no-unneeded-ternary": "error",
 			"no-unreachable-loop": "error",
-			"no-unused-expressions": "error",
+			"no-unused-expressions": "off",
 			"no-use-before-define": "off",
 			"no-useless-assignment": "error",
 			"no-useless-call": "error",
@@ -197,12 +197,13 @@ export default defineConfig(
 		}
 	},
 	{
-		files: ["Tests/**/*.js"],
+		files: ["Tests/**/*.Tests.js"],
 		rules: {
 			"prefer-arrow-callback": "off",
 			"@typescript-eslint/explicit-function-return-type": "off",
 			"@typescript-eslint/explicit-module-boundary-types": "off",
-			"@typescript-eslint/no-floating-promises": "off"
+			"@typescript-eslint/no-floating-promises": "off",
+			"@typescript-eslint/no-unused-expressions": "off"
 		}
 	}
 );
