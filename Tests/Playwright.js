@@ -27,18 +27,25 @@ await page.exposeFunction("exit", async (/** @type {number} */ code) => {
 });
 
 // Run the test suite.
+await cp(join(import.meta.dirname, "../node_modules/mocha/mocha.css"), join(directory, "Mocha.css"));
 await cp(join(import.meta.dirname, "../node_modules/mocha/mocha.js"), join(directory, "Mocha.js"));
+
 await writeFile(join(directory, "Tests.html"), `
 	<!doctype html>
 	<html dir="ltr" lang="en">
 		<head>
 			<meta charset="utf-8">
+			<meta name="viewport" content="initial-scale=1, width=device-width">
+			<link rel="stylesheet" href="Mocha.css">
+			<title>Tests</title>
 		</head>
 
 		<body>
+			<div id="mocha"></div>
+
 			<script src="Mocha.js"></script>
 			<script>
-				mocha.setup({reporter: "spec", ui: "bdd"});
+				mocha.setup("bdd");
 			</script>
 
 			<script src="Tests.js"></script>
