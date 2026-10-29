@@ -51,7 +51,7 @@ await writeFile(join(directory, "Tests.html"), `
 			<script src="Tests.js"></script>
 			<script>
 				const runner = mocha.run();
-				runner.on("end", () => exit(runner.failures));
+				if (typeof exit == "function") runner.on("end", () => exit(runner.failures));
 			</script>
 		</body>
 	</html>
