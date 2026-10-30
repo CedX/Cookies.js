@@ -43,37 +43,37 @@ describe("CookieStore", () => {
 		});
 	});
 
-	// describe("[Symbol.asyncIterator]()", () => {
-	// 	it("should end iteration immediately if the cookie store is empty", async () => {
-	// 		const iterator = new CookieStore()[Symbol.asyncIterator]();
-	// 		/** @type {boolean} */ ((await iterator.next()).done).should.be.true;
-	// 	});
+	describe("[Symbol.asyncIterator]()", () => {
+		it("should end iteration immediately if the cookie store is empty", async () => {
+			const iterator = new CookieStore()[Symbol.asyncIterator]();
+			should.equal((await iterator.next()).done, true);
+		});
 
-	// 	it("should iterate over the values if the cookie store is not empty", async () => {
-	// 		const iterator = new CookieStore()[Symbol.asyncIterator]();
-	// 		await cookieStore.set("foo", '"bar"');
-	// 		await cookieStore.set("prefix:baz", '"qux"');
+		it("should iterate over the values if the cookie store is not empty", async () => {
+			const iterator = new CookieStore()[Symbol.asyncIterator]();
+			await cookieStore.set("foo", '"bar"');
+			await cookieStore.set("prefix:baz", '"qux"');
 
-	// 		let next = await iterator.next();
-	// 		assert.isFalse(next.done);
-	// 		assert.sameOrderedMembers(next.value, ["foo", "bar"]);
-	// 		next = await iterator.next();
-	// 		assert.isFalse(next.done);
-	// 		assert.sameOrderedMembers(next.value, ["prefix:baz", "qux"]);
-	// 		assert.isTrue((await iterator.next()).done);
-	// 	});
+			let next = await iterator.next();
+			should.equal(next.done, false);
+			/** @type {string[]} */ (next.value).should.have.ordered.members(["foo", "bar"]);
+			next = await iterator.next();
+			should.equal(next.done, false);
+			/** @type {string[]} */ (next.value).should.have.ordered.members(["prefix:baz", "qux"]);
+			should.equal((await iterator.next()).done, true);
+		});
 
-	// 	it("should handle the key prefix", async () => {
-	// 		const iterator = new CookieStore({keyPrefix: "prefix:"})[Symbol.asyncIterator]();
-	// 		await cookieStore.set("foo", '"bar"');
-	// 		await cookieStore.set("prefix:baz", '"qux"');
+		it("should handle the key prefix", async () => {
+			const iterator = new CookieStore({keyPrefix: "prefix:"})[Symbol.asyncIterator]();
+			await cookieStore.set("foo", '"bar"');
+			await cookieStore.set("prefix:baz", '"qux"');
 
-	// 		const next = await iterator.next();
-	// 		assert.isFalse(next.done);
-	// 		assert.sameOrderedMembers(next.value, ["baz", "qux"]);
-	// 		assert.isTrue((await iterator.next()).done);
-	// 	});
-	// });
+			const next = await iterator.next();
+			should.equal(next.done, false);
+			/** @type {string[]} */ (next.value).should.have.ordered.members(["baz", "qux"]);
+			should.equal((await iterator.next()).done, true);
+		});
+	});
 
 	describe("clear()", () => {
 		it("should remove all cookies", async () => {
@@ -236,32 +236,32 @@ describe("CookieStore", () => {
 	});
 
 	describe("set()", () => {
-		// it("should properly serialize and set the cookies", async () => {
-		// 	const service = new CookieStore;
-		// 	should.not.exist(await cookieStore.get("foo"));
+		it("should properly serialize and set the cookies", async () => {
+			const service = new CookieStore;
+			should.not.exist(await cookieStore.get("foo"));
 
-		// 	await service.set("foo", "bar");
-		// 	assert.equal((await cookieStore.get("foo"))?.value, '"bar"');
+			await service.set("foo", "bar");
+			should.equal((await cookieStore.get("foo"))?.value, '"bar"');
 
-		// 	await service.set("foo", 123);
-		// 	assert.equal((await cookieStore.get("foo"))?.value, "123");
+			await service.set("foo", 123);
+			should.equal((await cookieStore.get("foo"))?.value, "123");
 
-		// 	await service.set("foo", {key: "value"});
-		// 	assert.equal((await cookieStore.get("foo"))?.value, '{"key":"value"}');
-		// });
+			await service.set("foo", {key: "value"});
+			should.equal((await cookieStore.get("foo"))?.value, '{"key":"value"}');
+		});
 
-	// 	it("should handle the key prefix", async () => {
-	// 		const service = new CookieStore({keyPrefix: "prefix:"});
-	// 		should.not.exist(await cookieStore.get("prefix:baz"));
+		it("should handle the key prefix", async () => {
+			const service = new CookieStore({keyPrefix: "prefix:"});
+			should.not.exist(await cookieStore.get("prefix:baz"));
 
-	// 		await service.set("baz", "qux");
-	// 		assert.equal((await cookieStore.get("prefix:baz"))?.value, '"qux"');
+			await service.set("baz", "qux");
+			should.equal((await cookieStore.get("prefix:baz"))?.value, '"qux"');
 
-	// 		await service.set("baz", 456);
-	// 		assert.equal((await cookieStore.get("prefix:baz"))?.value, "456");
+			await service.set("baz", 456);
+			should.equal((await cookieStore.get("prefix:baz"))?.value, "456");
 
-	// 		await service.set("baz", {key: "value"});
-	// 		assert.equal((await cookieStore.get("prefix:baz"))?.value, '{"key":"value"}');
-	// 	});
+			await service.set("baz", {key: "value"});
+			should.equal((await cookieStore.get("prefix:baz"))?.value, '{"key":"value"}');
+		});
 	});
 });
