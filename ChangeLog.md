@@ -1,5 +1,11 @@
 # Changelog
 
+## Version [2026.11.0](https://github.com/CedX/Cookies.js/compare/v9.0.0...v2026.11.0)
+- Breaking change: raised the required [Node.js](https://nodejs.org) version.
+- Breaking change: the `CookieStore.keys` property is now implemented as `Promise<string[]>`.
+- Breaking change: the `CookieStore.onChange()` method now returns an `AbortController` allowing to cancel the subscription.
+- Switched to a year-based versioning.
+
 ## Version [9.0.0](https://github.com/CedX/Cookies.js/compare/v8.1.1...v9.0.0)
 - Breaking change: all `CookieStore` methods and properties are now asynchronous.
 - Breaking change: the `CookieStore` class now **always** serializes/deserializes values to/from JSON.
